@@ -1,0 +1,7 @@
+nombre,edad,origen,nivel,origen_cod
+Zizo,5,bitaria,8,0
+Ancestro1,?,bitaria,45,0
+Ancestro2,desconocido,bitaria,120,0
+Ancestro3,-30,bitaria,25,0
+Ancestro4,200,exilio,60,1
+Ancestro5,30,exilio,15,1
