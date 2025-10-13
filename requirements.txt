@@ -1,0 +1,11 @@
+# Requerimientos para Desafíos Zizo (análisis de datos + notebooks + extras útiles)
+jupyter
+notebook
+pandas
+numpy
+matplotlib
+seaborn
+scipy
+openpyxl        # leer/escribir archivos Excel .xlsx
+
+
