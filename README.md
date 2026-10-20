@@ -1,52 +1,71 @@
-# 📘 Desafíos Zizo – El algoritmo perdido  
+# Desafíos de *Zizo y el algoritmo perdido*
 
-**Desafíos Zizo** es una colección de ejercicios y retos resueltos basados en el libro _“Zizo y el algoritmo perdido”_, una historia interactiva en la que se aprende **análisis de datos básico** utilizando **Python** y herramientas modernas de ciencia de datos.  
+Este repositorio reúne los archivos de apoyo y las soluciones ejecutables de los desafíos del libro *Zizo y el algoritmo perdido*, de  Diego Fernando Aguirre Barahona.
 
-Cada desafío está diseñado para reforzar conceptos de programación, visualización y análisis estadístico, mientras se sigue la aventura de **Zizo**, un zorro curioso que busca descifrar los secretos de los datos.  
+## Cómo usar el repositorio
 
----
+1. Descarga el repositorio o clónalo:
 
-## 🚀 Objetivo del proyecto
-
-El propósito de este repositorio es servir como material educativo para aprender:  
-- Fundamentos de **Python** aplicados al análisis de datos.  
-- Uso de **Jupyter Notebook** para experimentación y documentación interactiva.  
-- Aplicación de librerías de análisis como **pandas**, **numpy**, **matplotlib**, y **seaborn**.  
-- Limpieza, transformación y visualización de datos.  
-
----
-
-## 🧩 Tecnologías utilizadas
-
-- **Lenguaje:** Python 3.11  
-- **Entorno:** Jupyter Notebook  
-- **Bibliotecas:**
-  - [pandas](https://pandas.pydata.org/)
-  - [numpy](https://numpy.org/)
-  - [matplotlib](https://matplotlib.org/)
-  - [seaborn](https://seaborn.pydata.org/)
-  - [scipy](https://scipy.org/) *(opcional para análisis estadístico adicional)*  
-
----
-
-## ⚙️ Instalación y uso
-
-1. **Clonar el repositorio**
    ```bash
-   git clone https://github.com/tuusuario/Desafios-Zizo.git
+   git clone https://github.com/FerB1t/Desafios-Zizo.git
    cd Desafios-Zizo
+   ```
 
-## 🦊 Sobre Zizo  
+2. Crea y activa un entorno virtual:
 
-**Zizo** es un personaje educativo que acompaña al lector en su proceso de aprendizaje, resolviendo problemas reales y mostrando cómo la programación puede aplicarse al mundo del análisis de datos.  
-Cada desafío plantea una situación dentro de la historia y una solución práctica en código.  
+   **Windows (PowerShell)**
 
----
+   ```powershell
+   py -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   ```
 
-## 👨‍🏫 Autor  
+   **macOS o Linux**
 
-**Diego Fernando Aguirre Barahona**  
-Desarrollador e investigador en formación, apasionado por la programación, el análisis de datos y la inteligencia artificial aplicada a la educación.  
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
 
-🌐 [GitHub](https://github.com/FerB1t)  
-💼 [LinkedIn](https://www.linkedin.com/in/diego-fernando-aguirre-27a0822b4/)
+3. Instala las dependencias:
+
+   ```bash
+   python -m pip install --upgrade pip
+   python -m pip install -r requirements.txt
+   ```
+
+4. Ejecuta un desafío desde la carpeta raíz. Por ejemplo:
+
+   ```bash
+   python Desafio_15.py
+   ```
+
+## Función de los archivos de datos
+
+| Archivo | Función pedagógica |
+| --- | --- |
+| `habitantes.csv` | Entrada estable y correcta para los desafíos 15, 16 y 17. |
+| `registro_ancestral.csv` | Entrada deliberadamente desordenada para practicar limpieza y transformación. |
+| `Archivo_Final.csv` | Base de datos extensa con errores intencionales para que el lector la intervenga. |
+| `avanzados.xlsx` | Resultado de referencia del desafío 15; contiene solo a Zizo y Bit. |
+| `registro_ancestral_limpio.csv` | Resultado de referencia del desafío 18. |
+
+El orden de las filas de una base de datos no determina que esté correcta o incorrecta. En los archivos deliberadamente desordenados, las inconsistencias forman parte del ejercicio. En cambio, las soluciones `Desafio_*.py` y los archivos de resultado muestran una ejecución válida con la que el lector puede comparar su trabajo.
+
+## Archivos de referencia del desafío 22
+
+- `histograma_nivel_6bins.png`
+- `barras_estado.png`
+- `scatter_nivel_edad.png`
+- `multivariado_nivel_edad_origen.png`
+
+El programa `Desafio_22.py` es autocontenido: crea un DataFrame de ejemplo con las columnas descritas en el capítulo y genera las cuatro imágenes sin depender de un archivo adicional.
+
+## Compatibilidad
+
+Las soluciones fueron verificadas con Python 3 y las bibliotecas declaradas en `requirements.txt`. Para que las rutas relativas funcionen, ejecuta los programas desde la carpeta raíz del repositorio.
+
+## Licencia y uso
+
+Material educativo complementario del libro. Conserva los créditos de autoría al reutilizarlo o compartirlo.
+
