@@ -1,89 +1,67 @@
-# Desafio 22: Gráficos (univariado, bivariado y multivariado)
-import pandas as pd
+"""Desafío 22: crear cuatro visualizaciones con Matplotlib y Seaborn."""
+
+import matplotlib
+
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
-import numpy as np
+import pandas as pd
+import seaborn as sns
 
-# Cargar datos (archivos en la misma carpeta que el .py)
-hab = pd.read_csv("habitantes.csv")
-reg = pd.read_csv("registro_ancestral.csv")
 
-# --- Limpieza mínima para seguridad ---
-# Asegurarse de que 'nivel' sea numérico en ambos archivos
-hab["nivel"] = pd.to_numeric(hab["nivel"], errors="coerce")
-reg["nivel"] = pd.to_numeric(reg["nivel"], errors="coerce")
-# Asegurar que 'edad' sea numérica (hay valores como '?' o 'desconocido')
-reg["edad"] = pd.to_numeric(reg["edad"], errors="coerce")
-# Normalizar texto de 'origen' para el multivariado
-if "origen" in reg.columns:
-    reg["origen"] = reg["origen"].astype(str).str.strip().str.lower()
+# Ejemplo autocontenido con las cinco columnas descritas en el capítulo.
+datos = pd.DataFrame(
+    {
+        "nombre": ["Zizo", "Bit", "Null", "Lira", "Codarion", "Exelia", "Rex", "Vera"],
+        "edad": [18, 22, 35, 27, 40, 31, 24, 29],
+        "nivel": [6, 7, 9, 5, 8, 10, 4, 7],
+        "origen": ["Bitaria", "Bitaria", "Exilio", "Exilio", "Bitaria", "Exilio", "Bitaria", "Exilio"],
+        "estado": ["activo", "activo", "inactivo", "inactivo", "activo", "activo", "inactivo", "activo"],
+    }
+)
 
-# -----------------------
-# 1) Univariado: histograma de "nivel" con 6 rangos
-# -----------------------
-plt.figure()
-plt.hist(hab["nivel"].dropna(), bins=6)
-plt.title("Histograma de 'nivel' (6 rangos)")
+sns.set_theme(style="whitegrid")
+
+# 1. Gráfico univariado numérico: nivel en 6 intervalos.
+plt.figure(figsize=(7, 4.5))
+plt.hist(datos["nivel"], bins=6, color="skyblue", edgecolor="black")
+plt.title("Distribución del nivel")
 plt.xlabel("Nivel")
 plt.ylabel("Frecuencia")
 plt.tight_layout()
-plt.savefig("histograma_nivel_6bins.png")   # guarda imagen
-plt.show()
+plt.savefig("histograma_nivel_6bins.png", dpi=150)
+plt.close()
 
-# -----------------------
-# 2) Univariado: gráfico de barras por "estado"
-#    (el libro usa 'estado' — en los CSV está 'activo'; se adapta)
-# -----------------------
-# Elegimos la columna 'activo' si existe, si no usamos 'estado'
-col_estado = "activo" if "activo" in hab.columns else ("estado" if "estado" in hab.columns else None)
-if col_estado is None:
-    raise RuntimeError("No se encontró columna 'activo' ni 'estado' en habitantes.csv")
-counts = hab[col_estado].value_counts()
-
-plt.figure()
-counts.plot(kind="bar")
-plt.title(f"Número de personajes por '{col_estado}'")
-plt.xlabel(col_estado)
+# 2. Gráfico univariado categórico: conteo por estado.
+plt.figure(figsize=(7, 4.5))
+sns.countplot(data=datos, x="estado", hue="estado", legend=False, palette="Set2")
+plt.title("Personajes por estado")
+plt.xlabel("Estado")
 plt.ylabel("Cantidad")
-plt.xticks(rotation=0)
 plt.tight_layout()
-plt.savefig("barras_estado.png")
-plt.show()
+plt.savefig("barras_estado.png", dpi=150)
+plt.close()
 
-# -----------------------
-# 3) Bivariado: scatterplot "nivel" vs "edad"
-# -----------------------
-# Usamos registro_ancestral.csv (contiene edad). Eliminamos filas con NaN en las columnas usadas.
-df_scatter = reg[["nivel", "edad"]].dropna()
-plt.figure()
-plt.scatter(df_scatter["nivel"], df_scatter["edad"])
-plt.title("Scatterplot: nivel vs edad")
-plt.xlabel("Nivel")
-plt.ylabel("Edad")
+# 3. Gráfico bivariado: edad en X y nivel en Y.
+plt.figure(figsize=(7, 4.5))
+sns.scatterplot(data=datos, x="edad", y="nivel", s=80)
+plt.title("Relación entre edad y nivel")
+plt.xlabel("Edad")
+plt.ylabel("Nivel")
 plt.tight_layout()
-plt.savefig("scatter_nivel_edad.png")
-plt.show()
+plt.savefig("scatter_nivel_edad.png", dpi=150)
+plt.close()
 
-# -----------------------
-# 4) Multivariado: nivel vs edad, colores para 'origen', tamaños según 'nivel'
-# -----------------------
-# Filtramos filas válidas
-if "origen" not in reg.columns:
-    raise RuntimeError("No hay columna 'origen' en registro_ancestral.csv para el gráfico multivariado.")
-df_multi = reg[["nivel", "edad", "origen"]].dropna()
-
-# Para que los puntos no sean demasiado pequeños/grandes:
-# definimos tamaño proporcional a 'nivel' (ej: nivel * 5)
-sizes = (df_multi["nivel"].astype(float).fillna(0) * 5).clip(lower=10)  # mínimo 10
-
-plt.figure()
-# Dibujamos un scatter por cada origen (así matplotlib asigna colores automáticamente)
-for origen, grupo in df_multi.groupby("origen"):
-    plt.scatter(grupo["nivel"], grupo["edad"], s=(grupo["nivel"] * 5).clip(lower=10), label=origen)
-
-plt.title("Multivariado: Nivel vs Edad (color = origen, tamaño = nivel)")
-plt.xlabel("Nivel")
-plt.ylabel("Edad")
-plt.legend(title="Origen", bbox_to_anchor=(1.05, 1), loc="upper left")  # leyenda a la derecha
+# 4. Gráfico multivariado: color por origen, sin repetir nivel como tamaño.
+plt.figure(figsize=(7, 4.5))
+sns.scatterplot(data=datos, x="edad", y="nivel", hue="origen", s=80)
+plt.title("Edad y nivel según el origen")
+plt.xlabel("Edad")
+plt.ylabel("Nivel")
+plt.legend(title="Origen")
 plt.tight_layout()
-plt.savefig("multivariado_nivel_edad_origen.png", bbox_inches="tight")
-plt.show()
+plt.savefig("multivariado_nivel_edad_origen.png", dpi=150)
+plt.close()
+
+print("Se crearon correctamente las cuatro imágenes del desafío 22.")
+
